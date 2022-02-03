@@ -27,7 +27,7 @@ export class FormComponent implements OnInit {
         icon: 'success',
         title: `Cliente ${cliente.nombre} creado con exito`,
         showConfirmButton: false,
-        timer: 1500
+        timer: 2000
       })
     }
     );
