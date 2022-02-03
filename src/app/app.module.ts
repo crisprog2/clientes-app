@@ -7,18 +7,22 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormComponent } from './clientes/form.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ClientesComponent
+    ClientesComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
