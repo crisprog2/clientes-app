@@ -45,7 +45,7 @@ export class ClientesComponent implements OnInit {
             this.clientes = this.clientes?.filter(cli => cli !== cliente)
             swalWithBootstrapButtons.fire(
               'Cliente Eliminado!',
-              'Cliente eliminado con Exito',
+              `Cliente ${cliente.nombre} eliminado con Exito`,
               'success'
             )
           }
