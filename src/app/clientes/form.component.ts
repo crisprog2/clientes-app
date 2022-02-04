@@ -14,6 +14,8 @@ export class FormComponent implements OnInit {
   public cliente: Cliente=new Cliente();
   public titulo: string="Crear Cliente";
 
+  private errores: string[];
+
   constructor(private clienteService: ClienteService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -41,6 +43,11 @@ export class FormComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       })
+    },
+    err=> {
+      this.errores=err.error.errors as string[];
+      console.error('Codigo del error desde el back: '+err.status)
+      console.error(err.error.errors);
     }
     );
   }
@@ -56,6 +63,11 @@ export class FormComponent implements OnInit {
           showConfirmButton: false,
           timer: 2000
         })
+      },
+      err=> {
+        this.errores=err.error.errors as string[];
+        console.error('Codigo del error desde el back: '+err.status)
+        console.error(err.error.errors);
       }
     )
   }
