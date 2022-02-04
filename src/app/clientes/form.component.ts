@@ -37,7 +37,7 @@ export class FormComponent implements OnInit {
       Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: `Cliente ${cliente.nombre} creado con exito`,
+        title: `El cliente: ${cliente.nombre} ha sido creado con exito`,
         showConfirmButton: false,
         timer: 2000
       })
@@ -47,12 +47,12 @@ export class FormComponent implements OnInit {
 
   public update(): void{
     this.clienteService.updateCliente(this.cliente).subscribe(
-      cliente => {
+      json => {
         this.router.navigate(['/clientes'])
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: `Cliente ${cliente.nombre} actualizado con exito`,
+          title: `${json.mensaje}: ${json.cliente.nombre}`,
           showConfirmButton: false,
           timer: 2000
         })
