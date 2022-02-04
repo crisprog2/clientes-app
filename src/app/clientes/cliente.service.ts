@@ -1,9 +1,11 @@
 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { Cliente } from "./cliente";
-import { map } from 'rxjs';
+import { map, catchError } from 'rxjs';
+import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class ClienteService {
 
   private urlEndpoint: string= 'http://localhost:8080/api/clientes';
   private httpHeaders= new HttpHeaders({'Content-Type': 'application/json'})
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getClientes(): Observable<Cliente[]>{
     return this.http.get(this.urlEndpoint).pipe(
@@ -25,7 +27,14 @@ export class ClienteService {
   }
 
   getCliente(id: any): Observable<Cliente>{
-    return this.http.get<Cliente>(`${this.urlEndpoint}/${id}`)
+    return this.http.get<Cliente>(`${this.urlEndpoint}/${id}`).pipe(
+      catchError(e=>{
+        this.router.navigate(['/clientes']);
+        console.error(e.error.mensaje);
+        Swal.fire('Error al consultar', e.error.mensaje, 'error');
+        return throwError(()=>e);
+      })
+    );
   }
 
   updateCliente(cliente: Cliente): Observable<Cliente>{
