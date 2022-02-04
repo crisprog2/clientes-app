@@ -12,6 +12,7 @@ import { ClienteService } from './cliente.service';
 export class ClientesComponent implements OnInit {
 
   clientes!: Cliente[];
+  paginador: any;
 
   constructor(private clienteService: ClienteService, private activatedRoute: ActivatedRoute) { }
 
@@ -22,7 +23,10 @@ export class ClientesComponent implements OnInit {
         page = 0;
       }
       this.clienteService.getClientes(page).subscribe(
-        response => this.clientes = response.content as Cliente[]
+        response => {
+          this.clientes = response.content as Cliente[];
+          this.paginador = response;
+        }
       );
     }
     );
