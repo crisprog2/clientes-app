@@ -16,9 +16,12 @@ export class ClienteService {
   private httpHeaders= new HttpHeaders({'Content-Type': 'application/json'})
   constructor(private http: HttpClient, private router: Router) { }
 
-  getClientes(): Observable<Cliente[]>{
-    return this.http.get(this.urlEndpoint).pipe(
-      map( (response) => response as Cliente[])
+  getClientes(page: number): Observable<any>{
+    return this.http.get(this.urlEndpoint+'/page/'+page).pipe(
+      map( (response:any) => {
+        (response.content as Cliente[]);
+        return response;
+      })
     );
   }
 
@@ -56,7 +59,7 @@ export class ClienteService {
         if (e.status==400) {
           return throwError(()=>e);
         }
-        
+
         console.error(e.error.mensaje);
         Swal.fire('Error al actualizar el cliente', e.error.mensaje, 'error');
         return throwError(()=>e);
