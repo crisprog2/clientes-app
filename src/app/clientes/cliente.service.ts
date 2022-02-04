@@ -26,7 +26,7 @@ export class ClienteService {
     return this.http.post<Cliente>(this.urlEndpoint, cliente, {headers: this.httpHeaders})
   }
 
-  getCliente(id: any): Observable<Cliente>{
+  getCliente(id): Observable<Cliente>{
     return this.http.get<Cliente>(`${this.urlEndpoint}/${id}`).pipe(
       catchError(e=>{
         this.router.navigate(['/clientes']);
@@ -41,7 +41,7 @@ export class ClienteService {
     return this.http.put<Cliente>(`${this.urlEndpoint}/${cliente.id}`, cliente, {headers:this.httpHeaders})
   }
 
-  deleteCliente(id: number | undefined): Observable<Cliente>{
+  deleteCliente(id: number): Observable<Cliente>{
     return this.http.delete<Cliente>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders})
   }
 
