@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
@@ -13,6 +13,7 @@ export class ClientesComponent implements OnInit {
 
   clientes!: Cliente[];
   paginador: any;
+  clienteSeleccionado: Cliente;
 
   constructor(private clienteService: ClienteService, private activatedRoute: ActivatedRoute) { }
 
@@ -65,6 +66,10 @@ export class ClientesComponent implements OnInit {
 
       }
     })
+  }
+
+  abrirModal(cliente: Cliente){
+    this.clienteSeleccionado=cliente;
   }
 
 }
