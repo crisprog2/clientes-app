@@ -14,11 +14,25 @@ import { Region } from "./Region";
 export class ClienteService {
 
   private urlEndpoint: string= 'http://localhost:8080/api/clientes';
-  private httpHeaders= new HttpHeaders({'Content-Type': 'application/json'})
+  private httpHeaders= new HttpHeaders({'Content-Type': 'application/json'});
+
   constructor(private http: HttpClient, private router: Router) { }
 
+  private isNoAutorizado(e): boolean{
+    if (e.status==401 || e.status==403) {
+      this.router.navigate(['/login']);
+      return true;
+    }
+    return false;
+  }
+
   getRegiones(): Observable<Region[]>{
-    return this.http.get<Region[]>(this.urlEndpoint+'/regiones');
+    return this.http.get<Region[]>(this.urlEndpoint+'/regiones').pipe(
+      catchError(e=>{
+        this.isNoAutorizado(e);
+        return throwError(()=>e);
+      })
+    );
   }
 
   getClientes(page: number): Observable<any>{
@@ -35,6 +49,10 @@ export class ClienteService {
       map((response: any) => response.cliente as Cliente),
       catchError(e=>{
 
+        if (this.isNoAutorizado(e)) {
+          return throwError(()=>e);
+        }
+
         if (e.status==400) {
           return throwError(()=>e);
         }
@@ -49,6 +67,11 @@ export class ClienteService {
   getCliente(id): Observable<Cliente>{
     return this.http.get<Cliente>(`${this.urlEndpoint}/${id}`).pipe(
       catchError(e=>{
+
+        if (this.isNoAutorizado(e)) {
+          return throwError(()=>e);
+        }
+
         this.router.navigate(['/clientes']);
         console.error(e.error.mensaje);
         Swal.fire('Error al consultar', e.error.mensaje, 'error');
@@ -60,6 +83,10 @@ export class ClienteService {
   updateCliente(cliente: Cliente): Observable<any>{
     return this.http.put<any>(`${this.urlEndpoint}/${cliente.id}`, cliente, {headers:this.httpHeaders}).pipe(
       catchError(e=>{
+
+        if (this.isNoAutorizado(e)) {
+          return throwError(()=>e);
+        }
 
         if (e.status==400) {
           return throwError(()=>e);
@@ -75,6 +102,11 @@ export class ClienteService {
   deleteCliente(id: number): Observable<Cliente>{
     return this.http.delete<Cliente>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders}).pipe(
       catchError(e=>{
+
+        if (this.isNoAutorizado(e)) {
+          return throwError(()=>e);
+        }
+
         console.error(e.error.mensaje);
         Swal.fire('Error al eliminar el cliente', e.error.mensaje, 'error');
         return throwError(()=>e);
@@ -89,7 +121,12 @@ export class ClienteService {
     const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, {
       reportProgress: true
     });
-    return this.http.request(req);
+    return this.http.request(req).pipe(
+      catchError(e=>{
+        this.isNoAutorizado(e);
+        return throwError(()=>e);
+      })
+    );
   }
 
 }
