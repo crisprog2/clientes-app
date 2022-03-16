@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import Swal from 'sweetalert2';
-import { Region } from './Region';
+import { Region } from './region';
 
 @Component({
   selector: 'app-form',

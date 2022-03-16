@@ -6,7 +6,8 @@ import { Cliente } from "./cliente";
 import { map, catchError } from 'rxjs';
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
-import { Region } from "./Region";
+import { Region } from "./region";
+
 
 @Injectable({
   providedIn: 'root'
