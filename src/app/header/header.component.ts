@@ -15,12 +15,12 @@ export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router) { }
 
   logout():void{
-    this.authService.logout();
     Swal.fire(
       'Logout',
       `Hola ${this.authService.usuario.username}, has cerrado sesión con éxito!`,
       'success'
     );
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 
