@@ -16,6 +16,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
+import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
     MatNativeDateModule,
     ReactiveFormsModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
