@@ -6,7 +6,7 @@ import { Factura } from '../models/factura';
 @Injectable({
   providedIn: 'root'
 })
-export class FacturasService {
+export class FacturaService {
 
   private urlEndpoint: string = 'http://localhost:8080/api/facturas';
 
